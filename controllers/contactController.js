@@ -4,9 +4,10 @@ const Contact = require("../modals/contact");
 //fetching all the contacts...
 exports.getContact = async (req, res) => {
   try {
-    const contacts = await Contact.findOne();
+    const contacts = await Contact.find({});
     res.json(contacts);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -28,6 +29,7 @@ exports.createContact = async (req, res) => {
     const savedContact = await newContact.save();
     res.status(201).json(savedContact);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 };
@@ -36,7 +38,7 @@ exports.createContact = async (req, res) => {
 
 exports.updateContact = async (req, res) => {
   const { id } = req.params;
-  console.log(req.body);
+  console.log("triggered", req.body);
   try {
     const updatedContact = await contact.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -55,6 +57,7 @@ exports.updateContact = async (req, res) => {
 //delete contact
 exports.deleteContact = async (req, res) => {
   const { id } = req.params;
+  console.log("triggered", id);
   try {
     const deletedContact = await contact.findByIdAndDelete(id);
     res.json(deletedContact);
